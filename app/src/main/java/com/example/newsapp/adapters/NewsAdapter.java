@@ -65,9 +65,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.news_publishedAt.setText(one_article.getPublishedAt().substring(0,10));
         holder.news_author.setText(one_article.getAuthor());
 
-    String path=one_article.getUrlToImage();
+        String path=one_article.getUrlToImage();
         if(path==null || path.trim().length()==0)
-    path="www.google.com/ahmed.png";
+        path="www.google.com/ahmed.pnsubmitListg";
 
         Picasso.with(mContext).load(path).error(R.drawable.ic_home_black_24dp).into(holder.imageView);
         holder.imageView.setOnClickListener(new View.OnClickListener() {

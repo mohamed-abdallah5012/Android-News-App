@@ -4,5 +4,5 @@
     <string name="title_world">World News</string>
     <string name="title_about">About</string>
     <string name="title_country">Country</string>
-    <string name="title_source">Source</string>
+    <string name="title_source">Category</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.newsapp.ui.world;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,7 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newsapp.R;
 import com.example.newsapp.adapters.NewsAdapter;
 import com.example.newsapp.models.Article;
+import com.example.newsapp.util.Constants;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class WorldFragment extends Fragment {
@@ -53,16 +57,7 @@ public class WorldFragment extends Fragment {
         assert manager != null;
         NetworkInfo network = manager.getActiveNetworkInfo();
         if (network != null && network.isConnected()) {
-            worldViewModel.getWorld_news().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
-                @Override
-                public void onChanged(List<Article> articles) {
-
-                    adapter = new NewsAdapter(getContext(), articles);
-                    recyclerView.setAdapter(adapter);
-                    progressBar.setVisibility(View.GONE);
-
-                }
-            });
+            getData();
 
         } else {
             final Handler handler = new Handler();
@@ -76,6 +71,18 @@ public class WorldFragment extends Fragment {
         }
         return root;
     }
+    private void getData()
+    {
+        worldViewModel.getWorld_news().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> articles) {
 
+                adapter = new NewsAdapter(getContext(), articles);
+                recyclerView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
+    }
 
 }

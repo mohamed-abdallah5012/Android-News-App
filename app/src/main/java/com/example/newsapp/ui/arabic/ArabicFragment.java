@@ -1,6 +1,7 @@
 package com.example.newsapp.ui.arabic;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newsapp.R;
 import com.example.newsapp.adapters.NewsAdapter;
 import com.example.newsapp.models.Article;
+import com.example.newsapp.util.Constants;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class ArabicFragment extends Fragment {
@@ -36,6 +41,8 @@ public class ArabicFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_host, container, false);
 
 
+
+
         progressBar = root.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -45,22 +52,13 @@ public class ArabicFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setItemViewCacheSize(100);
 
+
         ConnectivityManager manager = (ConnectivityManager) requireActivity().
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         assert manager != null;
         NetworkInfo network = manager.getActiveNetworkInfo();
         if (network != null && network.isConnected()) {
-            arabicViewModel.getArabic_news().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
-                @Override
-                public void onChanged(List<Article> articles) {
-
-                    adapter = new NewsAdapter(getContext(), articles);
-                    recyclerView.setAdapter(adapter);
-                    progressBar.setVisibility(View.GONE);
-
-                }
-            });
-
+            getData();
         } else {
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -71,7 +69,22 @@ public class ArabicFragment extends Fragment {
                 }
             }, 1000);
         }
+
         return root;
+    }
+    private void getData()
+    {
+
+            arabicViewModel.getArabic_news().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+                @Override
+                public void onChanged(List<Article> articles) {
+
+                    adapter = new NewsAdapter(getContext(), articles);
+                    recyclerView.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+
+                }
+            });
     }
 
 
